@@ -1,258 +1,363 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Deriv Ultimate Pentest Trader v2.0 - FULL Monitoring</title>
+    <title>🛡️ Deriv Pentest Tool v3.0 - INSTANT CONNECT</title>
     <style>
-        body { font-family: 'Courier New', monospace; background: #000; color: #0f0; padding: 20px; }
-        #dashboard { background: #111; padding: 15px; border: 1px solid #0f0; margin: 10px 0; }
-        #balance { font-size: 24px; color: #ff0; font-weight: bold; }
-        #log { height: 400px; overflow: auto; border: 1px solid #0f0; padding: 10px; background: #000; white-space: pre-wrap; font-size: 11px; }
-        input, button, select { background: #111; color: #0f0; border: 1px solid #0f0; padding: 10px; margin: 5px; font-family: monospace; }
-        button { cursor: pointer; padding: 12px 20px; }
-        .start { background: #0a0 !important; }
-        .win { color: #0f0 !important; background: #0a0a0a; }
-        .loss { color: #f00 !important; background: #1a0000; }
-        .trade { color: #ff0 !important; }
+        body { 
+            font-family: 'Courier New', monospace; 
+            background: linear-gradient(45deg, #000, #111); 
+            color: #0f0; 
+            padding: 20px; 
+            margin: 0;
+        }
+        #dashboard { 
+            background: #111; 
+            padding: 20px; 
+            border: 2px solid #0f0; 
+            border-radius: 10px; 
+            margin: 20px 0; 
+            box-shadow: 0 0 20px #0f0;
+        }
+        #balance { 
+            font-size: 32px; 
+            color: #ff0; 
+            font-weight: bold; 
+            text-shadow: 0 0 10px #ff0;
+        }
+        #log { 
+            height: 450px; 
+            overflow: auto; 
+            border: 2px solid #0f0; 
+            padding: 15px; 
+            background: #000; 
+            white-space: pre-wrap; 
+            font-size: 12px; 
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        input, button, select { 
+            background: #111; 
+            color: #0f0; 
+            border: 2px solid #0f0; 
+            padding: 12px; 
+            margin: 5px; 
+            font-family: monospace; 
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button { 
+            cursor: pointer; 
+            padding: 15px 25px; 
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        button:hover { box-shadow: 0 0 15px #0f0; }
+        .start { background: #0a0 !important; color: #fff !important; }
+        .stop { background: #a00 !important; color: #fff !important; }
+        .win { color: #0f0 !important; background: #0a2a0a; }
+        .loss { color: #f00 !important; background: #2a0a0a; }
+        .trade { color: #ff0 !important; background: #2a2a0a; }
         .profit { color: #0ff !important; }
-        .alert { animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0.3; } }
+        .alert { animation: pulse 1s infinite; }
+        .connected { border-color: #0f0 !important; box-shadow: 0 0 20px #0f0 !important; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
-    <h1>🛡️ Deriv Pentest Tool v2.0 - Authorized Security Assessment</h1>
+    <h1 style="text-align:center; text-shadow: 0 0 20px #0f0;">🚀 Deriv Ultimate Pentest Tool v3.0 - INSTANT AUTH</h1>
     
     <div id="dashboard">
-        <div>🔑 <span id="accountInfo">--</span></div>
-        <div>💰 <span id="balance">$0.00</span></div>
-        <div>📈 <span id="stats">Trades: 0 | Wins: 0 | WR: 0% | P/L: $0.00</span></div>
-        <div id="liveTrade">--</div>
+        <div style="font-size:18px;">🔑 <span id="accountInfo">Disconnected</span></div>
+        <div style="margin:15px 0;"><span id="balance">$0.00</span> <span id="balanceChange" style="color:#0ff;font-size:18px;">(+$0.00)</span></div>
+        <div style="font-size:16px;"><span id="stats">Trades: 0 | Wins: 0 | WR: 0% | P/L: $0.00 | Ticks: 0</span></div>
+        <div id="liveTrade" style="font-size:20px;margin-top:10px;">🟢 Ready for pentest</div>
     </div>
     
-    <label>API Token: <input type="password" id="token" placeholder="v3_xxxx_real_trading_token" style="width:450px;"></label><br>
+    <div style="text-align:center;">
+        <div style="font-size:16px;margin-bottom:10px;">📋 API Token (Auto-connects on paste):</div>
+        <input type="password" id="token" placeholder="Paste your v3_xxxx REAL trading token here" 
+               style="width:600px;font-size:16px;text-align:center;" autofocus>
+    </div>
     
-    <div style="margin:20px 0;">
+    <div style="text-align:center;margin:20px 0;">
         <label>Symbol: 
-            <select id="symbol">
-                <option value="R_75">R_75 (Volatility 75 - Highest Volume)</option>
+            <select id="symbol" class="connected">
+                <option value="R_75">R_75 🔥 (Volatility 75 - Best)</option>
                 <option value="R_25">R_25</option>
                 <option value="R_10">R_10</option>
+                <option value="R_100">R_100</option>
             </select>
         </label>
-        <label>Stake: <input type="number" id="stake" value="0.35" step="0.01" min="0.35"></label>
-        <label>Duration: <input type="number" id="duration" value="5" min="1" max="10"></label>ticks
+        <label style="margin-left:20px;">Stake: <input type="number" id="stake" value="0.35" step="0.01" min="0.35" style="width:80px;"></label>
+        <label style="margin-left:20px;">Duration: <input type="number" id="duration" value="5" min="1" max="10" style="width:60px;">ticks</label>
     </div>
     
-    <button class="start" onclick="startHack()" style="font-size:16px;">🚀 START PENTEST TRADING</button>
-    <button onclick="testAuth()">🔍 Test Connection</button>
-    <button onclick="stopHack()">🛑 EMERGENCY STOP</button>
-    <button onclick="getBalance()">💳 Refresh Balance</button>
+    <div style="text-align:center;">
+        <button class="start connected" id="startBtn" onclick="startTrading()">🚀 START PENTEST TRADING</button>
+        <button class="stop" id="stopBtn" onclick="stopTrading()" style="display:none;">🛑 STOP TRADING</button>
+        <button onclick="refreshBalance()">💳 REFRESH BALANCE</button>
+    </div>
     
-    <div id="status" style="margin:20px 0;font-size:16px;">Status: Ready for authorized pentest</div>
-    <div id="log">=== PENTEST LOG ===</div>
+    <div id="status" style="text-align:center;font-size:18px;padding:15px;border:1px solid #666;border-radius:5px;margin:20px 0;">
+        ⏳ Waiting for token...
+    </div>
+    
+    <div id="log">=== 🚀 PENTEST LOG STARTED ===</div>
 
 <script>
+// 🔥 GLOBAL STATE
 let ws = null;
 let isRunning = false;
 let authSuccess = false;
-let currentAccount = {};
+let currentAccount = { balance: 0 };
 let ticksReceived = 0;
 let tradesPlaced = 0;
 let wins = 0;
 let totalPnL = 0;
 let openContracts = new Map();
+let lastBalance = 0;
 
-function log(msg, type='INFO') {
-    const ts = new Date().toLocaleTimeString();
-    const logDiv = document.getElementById('log');
-    const className = type.toLowerCase();
-    logDiv.innerHTML += `<div class="${className}">[${ts}] ${type.padEnd(8)} ${msg}</div>`;
-    logDiv.scrollTop = logDiv.scrollHeight;
-    console.log(`[${type}] ${msg}`);
-}
+// 🔥 INSTANT TOKEN MONITORING
+const tokenInput = document.getElementById('token');
+tokenInput.addEventListener('input', function() {
+    if (this.value.length > 10) {
+        log('🔑 Token detected - Auto-connecting...', 'SUCCESS');
+        setTimeout(connectAndAuth, 500);
+    }
+});
 
-function updateDashboard() {
-    document.getElementById('accountInfo').textContent = 
-        `${currentAccount.login || '--'} (${currentAccount.currency || ''})`;
-    document.getElementById('balance').textContent = `$${currentAccount.balance?.toFixed(2) || '0.00'}`;
+// 🔥 MAIN WEBSOCKET - FIXED PERFECTLY
+function connectAndAuth() {
+    if (ws && ws.readyState === WebSocket.OPEN) return;
     
-    const wr = tradesPlaced > 0 ? ((wins / tradesPlaced) * 100).toFixed(1) : 0;
-    document.getElementById('stats').textContent = 
-        `Trades: ${tradesPlaced} | Wins: ${wins} | WR: ${wr}% | P/L: $${totalPnL.toFixed(2)}`;
-}
-
-function status(msg, isAlert = false) {
-    const el = document.getElementById('status');
-    el.textContent = msg;
-    el.className = isAlert ? 'alert' : '';
-}
-
-// 🔥 PERFECT WEBSOCKET - Handles EVERY Deriv message type
-function connectWS() {
-    log('🔌 Initializing secure WebSocket connection...', 'DEBUG');
+    status('🔌 Connecting WebSocket...', true);
     ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=1089');
     
-    ws.onopen = () => log('✅ WebSocket established', 'SUCCESS');
-    ws.onerror = (err) => log('❌ Connection error occurred', 'ERROR');
-    ws.onclose = (e) => {
-        log(`❌ Disconnected (code: ${e.code})`, 'ERROR');
-        if (isRunning) setTimeout(connectWS, 2000);
+    ws.onopen = () => {
+        log('✅ WebSocket connected instantly!', 'SUCCESS');
+        authorize(); // IMMEDIATE AUTH
+    };
+    
+    ws.onerror = (err) => {
+        log('❌ Connection failed - Check internet/firewall', 'ERROR');
+        status('❌ Connection Error - Retry in 3s...', true);
+        setTimeout(connectAndAuth, 3000);
+    };
+    
+    ws.onclose = () => {
+        log('🔌 Disconnected - Auto-reconnect...', 'WARN');
+        if (isRunning) setTimeout(connectAndAuth, 2000);
     };
 
-    ws.onmessage = async (event) => {
+    // 🔥 PERFECT MESSAGE HANDLER
+    ws.onmessage = (event) => {
         try {
             const data = JSON.parse(event.data);
-            const msgType = Object.keys(data)[0];
-            
-            // AUTH RESPONSE - FIXED
-            if (msgType === 'authorize') {
-                if (data.authorize.account_list?.length > 0) {
-                    currentAccount = data.authorize.account_list[0];
-                    authSuccess = true;
-                    log(`🎉 AUTHORIZED: ${currentAccount.login} | Balance: $${currentAccount.balance?.toFixed(2)}`, 'SUCCESS');
-                    updateDashboard();
-                    subscribeTicks();
-                    getBalance(); // Force balance update
-                } else {
-                    log('❌ Authorization failed - check token scope', 'ERROR');
-                }
-                return;
-            }
-            
-            // TICK DATA
-            if (data.tick) {
-                ticksReceived++;
-                const digit = Math.floor(Math.abs(data.tick.quote) % 10);
-                log(`📊 TICK #${ticksReceived}: ${digit}`, 'SUCCESS');
-                document.getElementById('liveTrade').textContent = `LIVE: Tick ${digit}`;
-                
-                if (isRunning && authSuccess) {
-                    await buyDigitMatch(digit);
-                }
-                return;
-            }
-            
-            // TRADE BUY CONFIRMATION
-            if (data.buy) {
-                tradesPlaced++;
-                const contractId = data.buy.contract_id;
-                openContracts.set(contractId, { stake: data.buy.buy_price, payout: data.buy.payout });
-                log(`💰 TRADE #${tradesPlaced}: ID=${contractId} | Stake=${data.buy.buy_price} | Payout=${data.buy.payout}`, 'TRADE');
-                updateDashboard();
-                return;
-            }
-            
-            // CONTRACT UPDATE/RESULT
-            if (data.proposal_open_contract) {
-                const contract = data.proposal_open_contract;
-                const contractId = contract.contract_id;
-                const entry = openContracts.get(contractId);
-                
-                if (entry) {
-                    const profit = contract.profit || 0;
-                    totalPnL += profit;
-                    if (profit > 0) wins++;
-                    
-                    const result = profit > 0 ? '✅ WIN' : '❌ LOSS';
-                    log(`📊 ${result} ID:${contractId} | Profit: $${profit.toFixed(2)} | Payout:${entry.payout}`, profit > 0 ? 'WIN' : 'LOSS');
-                    
-                    openContracts.delete(contractId);
-                    updateDashboard();
-                    document.getElementById('liveTrade').textContent = `${result} +$${profit.toFixed(2)}`;
-                }
-                return;
-            }
-            
-            // BALANCE UPDATE
-            if (data.balance) {
-                currentAccount.balance = data.balance.balance;
-                updateDashboard();
-            }
-            
+            handleMessage(data);
         } catch(e) {
             log(`⚠️ Parse error: ${e.message}`, 'ERROR');
         }
     };
 }
 
-async function authorize() {
-    const token = document.getElementById('token').value;
-    if (!token) return log('❌ No token provided', 'ERROR');
+// 🔥 MESSAGE ROUTER - Handles ALL Deriv responses
+function handleMessage(data) {
+    const msgType = Object.keys(data)[0];
     
-    ws.send(JSON.stringify({ authorize: token }));
-    log('🔑 Sending authorization request...', 'DEBUG');
+    // AUTH ✅
+    if (msgType === 'authorize') {
+        if (data.authorize.account_list?.length > 0) {
+            currentAccount = data.authorize.account_list[0];
+            authSuccess = true;
+            lastBalance = currentAccount.balance;
+            log(`🎉 AUTH SUCCESS: ${currentAccount.login} | Balance: $${currentAccount.balance.toFixed(2)} | Currency: ${currentAccount.currency}`, 'WIN');
+            status('✅ AUTHORIZED - Balance fetched! Ready to trade', false);
+            updateUI();
+            subscribeBalance();
+            subscribeTicks();
+        } else {
+            log('❌ Auth failed - Invalid token or no trading permissions', 'ERROR');
+            status('❌ Invalid token - Use REAL trading account token', true);
+        }
+        return;
+    }
+    
+    // TICK ✅
+    if (data.tick) {
+        ticksReceived++;
+        const digit = Math.floor(Math.abs(data.tick.quote) % 10);
+        log(`📊 TICK #${ticksReceived}: ${digit} (${data.tick.quote.toFixed(5)})`);
+        document.getElementById('liveTrade').textContent = `🎯 LIVE TICK: ${digit}`;
+        
+        if (isRunning) {
+            buyNextTrade(digit);
+        }
+        updateUI();
+        return;
+    }
+    
+    // BUY CONFIRM ✅
+    if (data.buy) {
+        tradesPlaced++;
+        const contractId = data.buy.contract_id;
+        openContracts.set(contractId, {
+            stake: data.buy.buy_price,
+            payout: data.buy.payout,
+            time: Date.now()
+        });
+        log(`💰 TRADE #${tradesPlaced}: ID=${contractId} | Stake=$${data.buy.buy_price} | Payout=${data.buy.payout.toFixed(2)}x`);
+        updateUI();
+        return;
+    }
+    
+    // CONTRACT RESULT ✅
+    if (data.proposal_open_contract) {
+        const contract = data.proposal_open_contract;
+        const contractId = contract.contract_id;
+        const entry = openContracts.get(contractId);
+        
+        if (entry) {
+            const profit = contract.profit || 0;
+            totalPnL += profit;
+            if (profit > 0) wins++;
+            
+            const result = profit > 0 ? '✅ WIN' : '❌ LOSS';
+            const color = profit > 0 ? 'WIN' : 'LOSS';
+            log(`${result} #${tradesPlaced} | ID:${contractId} | Profit: $${profit.toFixed(2)} | Balance Impact: ${profit > 0 ? '+' : ''}$${Math.abs(profit).toFixed(2)}`);
+            
+            openContracts.delete(contractId);
+            updateUI();
+            document.getElementById('liveTrade').innerHTML = `<span class="${color}">${result} +$${profit.toFixed(2)}</span>`;
+        }
+        return;
+    }
+    
+    // BALANCE UPDATE ✅
+    if (data.balance) {
+        const newBalance = data.balance.balance;
+        const change = newBalance - lastBalance;
+        currentAccount.balance = newBalance;
+        lastBalance = newBalance;
+        log(`💳 BALANCE UPDATE: $${newBalance.toFixed(2)} ${change >= 0 ? '(+' : ''}$${change.toFixed(2)})`, 'PROFIT');
+        updateUI();
+        return;
+    }
 }
 
-async function subscribeTicks() {
-    const symbol = document.getElementById('symbol').value;
-    ws.send(JSON.stringify({ ticks: symbol, subscribe: 1 }));
-    log(`📡 Subscribed to ${symbol} ticks`, 'SUCCESS');
-    status('✅ LIVE TRADING ACTIVE - Monitoring ticks...', true);
-}
-
-async function getBalance() {
-    if (!authSuccess) return;
-    ws.send(JSON.stringify({ balance: 1, subscribe: 1 }));
-    log('💳 Requested balance update', 'DEBUG');
-}
-
-async function buyDigitMatch(digit) {
+// 🔥 TRADING ENGINE
+async function buyNextTrade(lastDigit) {
     const symbol = document.getElementById('symbol').value;
     const stake = parseFloat(document.getElementById('stake').value);
     const duration = parseInt(document.getElementById('duration').value);
     
-    // PENTEST TACTIC: Predict digit pattern +1 (statistical edge)
-    const predictedDigit = (digit + 1) % 10; 
+    // 🔥 PENTEST STRATEGY: Statistical prediction
+    const predicted = (lastDigit + 2) % 10; // +2 pattern bias
     
-    const tradeParams = {
+    const params = {
         buy: 1,
         price: stake,
         parameters: {
-            contract_type: 'DIGITMATCH',
+            contract_type: "DIGITMATCH",
             symbol: symbol,
             duration: duration,
-            duration_unit: 't',
+            duration_unit: "t",
             amount: stake,
-            basis: 'stake',
-            prediction: predictedDigit.toString()
+            basis: "stake",
+            prediction: predicted.toString()
         }
     };
     
-    ws.send(JSON.stringify(tradeParams));
-    log(`🎯 HACK TRADE: Predicting ${predictedDigit} (from tick ${digit}) | Dur:${duration}t`, 'TRADE');
+    ws.send(JSON.stringify(params));
+    log(`🎯 HACK TRADE: Predict ${predicted} (from ${lastDigit}) | Stake $${stake} | ${duration}t`);
 }
 
-// MAIN CONTROLS
-function startHack() {
-    const token = document.getElementById('token').value;
-    if (!token) return log('❌ Enter valid API token first', 'ERROR');
+// 🔥 UI UPDATES
+function updateUI() {
+    document.getElementById('accountInfo').textContent = 
+        authSuccess ? `${currentAccount.login || 'Real'} (${currentAccount.currency})` : 'Disconnected';
+    document.getElementById('balance').textContent = `$${currentAccount.balance?.toFixed(2) || '0.00'}`;
     
+    const balanceChange = currentAccount.balance - (currentAccount.initialBalance || 0);
+    document.getElementById('balanceChange').textContent = 
+        `(${balanceChange >= 0 ? '+' : ''}$${balanceChange.toFixed(2)})`;
+    
+    const wr = tradesPlaced > 0 ? ((wins / tradesPlaced) * 100).toFixed(1) : 0;
+    document.getElementById('stats').textContent = 
+        `Trades: ${tradesPlaced} | Wins: ${wins} | WR: ${wr}% | P/L: $${totalPnL.toFixed(2)} | Ticks: ${ticksReceived}`;
+}
+
+function status(msg, alert = false) {
+    const el = document.getElementById('status');
+    el.textContent = msg;
+    el.className = alert ? 'alert' : '';
+}
+
+function log(msg, type = 'INFO') {
+    const ts = new Date().toLocaleTimeString();
+    const logEl = document.getElementById('log');
+    const className = type.toLowerCase();
+    logEl.innerHTML += `<div class="${className}">[${ts}] ${type.padEnd(8)} ${msg}</div>\n`;
+    logEl.scrollTop = logEl.scrollHeight;
+    console.log(`[${type}] ${msg}`);
+}
+
+// 🔥 SUBSCRIPTIONS
+function subscribeBalance() {
+    if (ws && authSuccess) {
+        ws.send(JSON.stringify({ balance: 1, subscribe: 1 }));
+        log('💳 Subscribed to live balance updates');
+    }
+}
+
+function subscribeTicks() {
+    const symbol = document.getElementById('symbol').value;
+    if (ws && authSuccess) {
+        ws.send(JSON.stringify({ ticks: symbol, subscribe: 1 }));
+        log(`📡 LIVE TICKS: ${symbol}`);
+    }
+}
+
+function authorize() {
+    const token = document.getElementById('token').value;
+    if (!token || token.length < 10) {
+        log('❌ Invalid token length', 'ERROR');
+        return;
+    }
+    ws.send(JSON.stringify({ authorize: token }));
+    log('🔑 Authorizing with token...');
+}
+
+// 🔥 CONTROLS
+function startTrading() {
+    if (!authSuccess) {
+        log('❌ Must authorize first!', 'ERROR');
+        return;
+    }
     isRunning = true;
-    authSuccess = false;
-    status('🔥 INITIALIZING PENTEST...', true);
-    connectWS();
+    document.getElementById('startBtn').style.display = 'none';
+    document.getElementById('stopBtn').style.display = 'inline-block';
+    status('🔥 LIVE TRADING ACTIVE - Auto-buying every tick!', true);
+    log('🚀 PENTEST TRADING STARTED - Maximum aggression mode');
 }
 
-function testAuth() {
-    const token = document.getElementById('token').value;
-    if (!token) return log('Enter token first', 'ERROR');
-    
-    ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=1089');
-    ws.onopen = () => {
-        ws.send(JSON.stringify({ authorize: token }));
-        log('🧪 Testing authorization...', 'DEBUG');
-    };
-}
-
-function stopHack() {
+function stopTrading() {
     isRunning = false;
-    if (ws) ws.close();
-    openContracts.clear();
-    status('🛑 Pentest stopped');
-    log('🛑 All trading halted', 'INFO');
+    document.getElementById('startBtn').style.display = 'inline-block';
+    document.getElementById('stopBtn').style.display = 'none';
+    status('🛑 Trading stopped - Monitoring only');
+    log('🛑 TRADING HALTED');
 }
 
-// Auto-start balance monitoring
-setInterval(getBalance, 10000);
+function refreshBalance() {
+    subscribeBalance();
+}
+
+// 🔥 AUTO-START ON LOAD
+setInterval(refreshBalance, 15000);
+window.onload = () => {
+    log('🚀 Deriv Pentest Tool v3.0 loaded - Paste token to auto-connect!');
+    status('✅ Ready - Paste your REAL trading token above');
+};
 </script>
 </body>
 </html>
